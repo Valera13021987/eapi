@@ -6,6 +6,8 @@ use App\Http\Resources\ReviewResource;
 use App\Model\Review;
 use App\Model\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\ReviewRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReviewController extends Controller
 {
@@ -15,67 +17,29 @@ class ReviewController extends Controller
         return ReviewResource::collection($product->reviews);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function store(ReviewRequest $request, Product $product)
     {
-        //
+        $review = new Review($request->all());
+        $product->reviews()->save($review);
+        return response([
+            'data' => new ReviewResource($review)
+        ], Response::HTTP_CREATED);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\Review  $review
-     * @return \Illuminate\Http\Response
-     */
     public function show(Review $review)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Review $review)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Review  $review
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Review $review)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Model\Review  $review
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Review $review)
     {
         //
